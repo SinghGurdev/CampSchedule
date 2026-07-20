@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#102a43">
+  <meta name="description" content="Camp Jeevan 2026 daily schedule, July 20–25, 2026.">
+  <title>Camp Jeevan 2026 Schedule</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#schedule">Skip to schedule</a>
+
+  <header class="hero">
+    <div class="hero__glow hero__glow--one"></div>
+    <div class="hero__glow hero__glow--two"></div>
+
+    <div class="shell hero__inner">
+      <div class="brand-mark" aria-hidden="true">CJ</div>
+
+      <div class="hero__copy">
+        <p class="eyebrow">July 20–25, 2026</p>
+        <h1>Camp Jeevan <span>2026</span></h1>
+        <p class="hero__subtitle">
+          A clear, mobile-friendly schedule for every day of camp.
+        </p>
+      </div>
+
+      <div class="hero__actions" aria-label="Page actions">
+        <button class="button button--light" id="shareButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8a3 3 0 1 0-2.83-4H15a3 3 0 0 0 .46 1.6l-7.2 4.1a3 3 0 0 0-4.1-.7 3 3 0 0 0 0 4.24 3 3 0 0 0 4.1-.7l7.2 4.1A3 3 0 0 0 15 18.24a3 3 0 1 0 1-2.24l-7.2-4.1c.03-.2.03-.4 0-.6L16 7.2A3 3 0 0 0 18 8Z"/>
+          </svg>
+          Share
+        </button>
+        <button class="button button--ghost" id="printButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 8V3h10v5H7Zm10 7h2v-4H5v4h2v-2h10v2Zm-2 6H9v-6h6v6ZM5 17H3v-8h18v8h-4v-2h2v-4H5v4h2v2H5Z"/>
+          </svg>
+          Print
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell main">
+    <section class="day-nav-card" aria-labelledby="day-picker-title">
+      <div class="day-nav-card__heading">
+        <div>
+          <p class="section-kicker">Camp schedule</p>
+          <h2 id="day-picker-title">Choose a day</h2>
+        </div>
+        <a class="pdf-link" href="Camp-Jeevan-2026-Schedule.pdf" target="_blank" rel="noopener">
+          Original PDF
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 3h7v7h-2V6.41l-8.3 8.3-1.4-1.42 8.29-8.29H14V3ZM5 5h6v2H7v10h10v-4h2v6H5V5Z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="day-picker" id="dayPicker" role="tablist" aria-label="Camp days"></div>
+    </section>
+
+    <section class="schedule-layout" id="schedule" aria-live="polite">
+      <aside class="summary-card">
+        <p class="section-kicker" id="selectedDayType">Daily schedule</p>
+        <h2 id="selectedDayHeading">Monday, July 20</h2>
+        <p class="summary-card__description" id="selectedDayDescription">
+          Monday through Friday follow the same afternoon and evening schedule.
+        </p>
+
+        <dl class="summary-stats">
+          <div>
+            <dt>Starts</dt>
+            <dd id="startTime">12:30 PM</dd>
+          </div>
+          <div>
+            <dt>Ends</dt>
+            <dd id="endTime">9:00 PM</dd>
+          </div>
+          <div>
+            <dt>Activities</dt>
+            <dd id="activityCount">11</dd>
+          </div>
+        </dl>
+
+        <div class="live-status" id="liveStatus">
+          <span class="live-status__dot" aria-hidden="true"></span>
+          <div>
+            <strong>Schedule preview</strong>
+            <span>Select any day to review its activities.</span>
+          </div>
+        </div>
+      </aside>
+
+      <div class="timeline-wrap">
+        <div class="timeline-heading">
+          <div>
+            <p class="section-kicker">Timeline</p>
+            <h2 id="timelineTitle">Monday’s activities</h2>
+          </div>
+          <p id="scheduleRange">12:30 PM–9:00 PM</p>
+        </div>
+
+        <ol class="timeline" id="timeline"></ol>
+
+        <div class="closing-card" id="closingCard" hidden>
+          <span class="closing-card__line"></span>
+          <div>
+            <p class="section-kicker">After Langar</p>
+            <h3>Camp Samapati</h3>
+            <p>Camp concludes following the final Langar.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group-section" id="workshop-groups" aria-labelledby="group-section-title" hidden>
+      <div class="group-section__heading">
+        <div>
+          <p class="section-kicker">Monday · Group assignments</p>
+          <h2 id="group-section-title">Find your workshops</h2>
+          <p>Choose your age group to see where to go, what the activity is, and who is leading it.</p>
+        </div>
+        <span class="group-section__badge">July 20</span>
+      </div>
+
+      <div class="group-picker" id="groupPicker" role="tablist" aria-label="Workshop groups"></div>
+
+      <article class="group-detail" id="groupDetail" aria-live="polite">
+        <div class="group-detail__header">
+          <div>
+            <p class="group-detail__label">Selected group</p>
+            <h3 id="groupName">Group A</h3>
+          </div>
+          <span class="group-age" id="groupAge">10 years</span>
+        </div>
+
+        <div class="assignment-grid" id="assignmentGrid"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer__inner">
+      <p><strong>Camp Jeevan 2026</strong> · July 20–25, 2026</p>
+      <p>Schedule details may be updated by camp organizers.</p>
+    </div>
+  </footer>
+
+  <noscript>
+    <div class="noscript">
+      JavaScript is required to display the interactive schedule.
+      The original PDF is still available from the link above.
+    </div>
+  </noscript>
+</body>
+</html>
