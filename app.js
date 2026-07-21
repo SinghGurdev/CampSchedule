@@ -13,36 +13,65 @@ const weekdaySchedule = [
   { time: "9:00 PM", value: "21:00", title: "Go Home", detail: "Daily camp program concludes.", kind: "logistics", tag: "Dismissal" }
 ];
 
-
-const workshopGroups = [
+const groups = [
   {
     id: "A",
     name: "Group A",
     age: "10-11 years",
-    color: "#e5ad22",
-    assignments: [
-      {
-        slot: "Workshop 1",
-        time: "3:45 PM",
-        activity: "Self Defense",
-        location: "Big Hall",
-        leader: "Bhai Gagandeep Singh"
-      },
-      {
-        slot: "Workshop 2",
-        time: "5:00 PM",
-        activity: "Sangeet",
-        location: "Darbar Sahib",
-        leader: "Bibi Rasleen Kaur"
-      }
-    ]
+    color: "#e5ad22"
   },
   {
     id: "B",
     name: "Group B",
     age: "11-12 years",
-    color: "#2f82c8",
-    assignments: [
+    color: "#2f82c8"
+  },
+  {
+    id: "C",
+    name: "Group C",
+    age: "13-14 years",
+    color: "#9a65ca"
+  },
+  {
+    id: "D",
+    name: "Group D",
+    age: "15+ years",
+    color: "#ef7d2f"
+  }
+];
+
+/*
+  WORKSHOP SCHEDULES
+
+  Monday is filled in with the schedule already provided.
+
+  Tuesday through Friday are currently empty. To enter a schedule, copy the
+  two objects from one of Monday's groups and replace the activity, location,
+  and leader.
+
+  Keep both dates and group letters exactly as shown.
+*/
+const workshopScheduleByDate = {
+  // Monday, July 20
+  "2026-07-20": {
+    A: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      }
+    ],
+
+    B: [
       {
         slot: "Workshop 1",
         time: "3:45 PM",
@@ -57,14 +86,9 @@ const workshopGroups = [
         location: "Big Hall",
         leader: "Bhai Gagandeep Singh"
       }
-    ]
-  },
-  {
-    id: "C",
-    name: "Group C",
-    age: "13-14 years",
-    color: "#9a65ca",
-    assignments: [
+    ],
+
+    C: [
       {
         slot: "Workshop 1",
         time: "3:45 PM",
@@ -79,14 +103,222 @@ const workshopGroups = [
         location: "Front Lawn / Grass",
         leader: "Bhai Amritpal Singh"
       }
+    ],
+
+    D: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Archery / Horseback Riding",
+        location: "Front Lawn / Grass",
+        leader: "Bhai Amritpal Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sikhar",
+        location: "Long Hall",
+        leader: "Bibi Gurpreet Kaur"
+      }
     ]
   },
-  {
-    id: "D",
-    name: "Group D",
-    age: "15+ years",
-    color: "#ef7d2f",
-    assignments: [
+
+  // Tuesday, July 21 — add the two assignments for each group.
+  "2026-07-21": {
+    C: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      }
+    ],
+
+    D: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      }
+    ],
+
+    A: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Sikhar",
+        location: "Long Hall",
+        leader: "Bibi Gurpreet Kaur"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Archery / Horseback Riding",
+        location: "Front Lawn / Grass",
+        leader: "Bhai Amritpal Singh"
+      }
+    ],
+
+    B: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Archery / Horseback Riding",
+        location: "Front Lawn / Grass",
+        leader: "Bhai Amritpal Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sikhar",
+        location: "Long Hall",
+        leader: "Bibi Gurpreet Kaur"
+      }
+    ]
+  },
+
+  // Wednesday, July 22 — add the two assignments for each group.
+  "2026-07-22": {
+    A: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      }
+    ],
+
+    B: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      }
+    ],
+
+    C: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Sikhar",
+        location: "Long Hall",
+        leader: "Bibi Gurpreet Kaur"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Archery / Horseback Riding",
+        location: "Front Lawn / Grass",
+        leader: "Bhai Amritpal Singh"
+      }
+    ],
+
+    D: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Archery / Horseback Riding",
+        location: "Front Lawn / Grass",
+        leader: "Bhai Amritpal Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sikhar",
+        location: "Long Hall",
+        leader: "Bibi Gurpreet Kaur"
+      }
+    ]
+  },
+
+  // Thursday, July 23 — add the two assignments for each group.
+  "2026-07-23": {
+    C: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      }
+    ],
+
+    D: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Sangeet",
+        location: "Darbar Sahib",
+        leader: "Bibi Rasleen Kaur"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Self Defense",
+        location: "Big Hall",
+        leader: "Bhai Gagandeep Singh"
+      }
+    ],
+
+    A: [
+      {
+        slot: "Workshop 1",
+        time: "3:45 PM",
+        activity: "Sikhar",
+        location: "Long Hall",
+        leader: "Bibi Gurpreet Kaur"
+      },
+      {
+        slot: "Workshop 2",
+        time: "5:00 PM",
+        activity: "Archery / Horseback Riding",
+        location: "Front Lawn / Grass",
+        leader: "Bhai Amritpal Singh"
+      }
+    ],
+
+    B: [
       {
         slot: "Workshop 1",
         time: "3:45 PM",
@@ -103,7 +335,7 @@ const workshopGroups = [
       }
     ]
   }
-];
+};
 
 const saturdaySchedule = [
   { time: "5:00 AM", value: "05:00", title: "Simran Meditation Session", detail: "Early morning meditation session.", kind: "spiritual", tag: "Simran" },
