@@ -7,7 +7,7 @@ const weekdaySchedule = [
   { time: "3:45 PM", value: "15:45", title: "Workshop 1", detail: "Participants divide into four groups.", kind: "workshop", tag: "Workshop" },
   { time: "5:00 PM", value: "17:00", title: "Workshop 2", detail: "Participants continue in four groups.", kind: "workshop", tag: "Workshop" },
   { time: "6:10 PM", value: "18:10", title: "Break / Freshen Up", detail: "Time to reset before the evening program.", kind: "break", tag: "Break" },
-  { time: "6:30 PM", value: "18:30", title: "Simran / Rehras Sahib", detail: "Evening spiritual program.", kind: "spiritual", tag: "Program" },
+  { time: "6:30 PM", value: "18:30", title: "Simran / Rehras Sahib", detail: "", kind: "spiritual", tag: "Program" },
   { time: "7:15 PM", value: "19:15", title: "Langar", detail: "Evening meal.", kind: "meal", tag: "Meal" },
   { time: "8:00 PM", value: "20:00", title: "Open Q/A Session", detail: "Open questions and answers for all participants.", kind: "session", tag: "Q/A" },
   { time: "9:00 PM", value: "21:00", title: "Go Home", detail: "Daily camp program concludes.", kind: "logistics", tag: "Dismissal" }
@@ -18,7 +18,7 @@ const workshopGroups = [
   {
     id: "A",
     name: "Group A",
-    age: "10 years",
+    age: "10-11 years",
     color: "#e5ad22",
     assignments: [
       {
@@ -40,7 +40,7 @@ const workshopGroups = [
   {
     id: "B",
     name: "Group B",
-    age: "11 years",
+    age: "11-12 years",
     color: "#2f82c8",
     assignments: [
       {
@@ -62,7 +62,7 @@ const workshopGroups = [
   {
     id: "C",
     name: "Group C",
-    age: "12/13 years",
+    age: "13-14 years",
     color: "#9a65ca",
     assignments: [
       {
@@ -84,7 +84,7 @@ const workshopGroups = [
   {
     id: "D",
     name: "Group D",
-    age: "14+ years",
+    age: "15+ years",
     color: "#ef7d2f",
     assignments: [
       {
