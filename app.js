@@ -372,6 +372,7 @@ const timelineTitle = document.querySelector("#timelineTitle");
 const scheduleRange = document.querySelector("#scheduleRange");
 const liveStatus = document.querySelector("#liveStatus");
 const closingCard = document.querySelector("#closingCard");
+
 const workshopSection = document.querySelector("#workshop-groups");
 const groupPicker = document.querySelector("#groupPicker");
 const groupDetail = document.querySelector("#groupDetail");
@@ -384,6 +385,7 @@ let selectedGroupIndex = 0;
 
 function getInitialDayIndex() {
   const today = new Date();
+
   const localDate = [
     today.getFullYear(),
     String(today.getMonth() + 1).padStart(2, "0"),
@@ -391,87 +393,143 @@ function getInitialDayIndex() {
   ].join("-");
 
   const exactIndex = days.findIndex((day) => day.date === localDate);
+
   return exactIndex >= 0 ? exactIndex : 0;
 }
 
 function createDayButtons() {
   days.forEach((day, index) => {
     const button = document.createElement("button");
+
     button.type = "button";
     button.className = "day-button";
     button.id = `day-tab-${index}`;
     button.setAttribute("role", "tab");
     button.setAttribute("aria-controls", "timeline");
+
     button.innerHTML = `
       <span class="day-button__name">${day.short}</span>
       <span class="day-button__date">${day.number}</span>
     `;
+
     button.addEventListener("click", () => selectDay(index, true));
+
     dayPicker.append(button);
   });
 }
 
 function selectDay(index, scrollIntoView = false) {
   selectedIndex = index;
+
   const selectedDay = days[index];
 
   [...dayPicker.children].forEach((button, buttonIndex) => {
-    button.setAttribute("aria-selected", String(buttonIndex === index));
-    button.tabIndex = buttonIndex === index ? 0 : -1;
+    const isSelected = buttonIndex === index;
+
+    button.setAttribute("aria-selected", String(isSelected));
+    button.tabIndex = isSelected ? 0 : -1;
   });
 
-  selectedDayType.textContent = selectedDay.day === "Saturday"
-    ? "Final day schedule"
-    : "Monday–Friday schedule";
+  selectedDayType.textContent =
+    selectedDay.day === "Saturday"
+      ? "Final day schedule"
+      : "Monday–Friday schedule";
 
-  selectedDayHeading.textContent = `${selectedDay.day}, July ${selectedDay.number}`;
-  selectedDayDescription.textContent = selectedDay.day === "Saturday"
-    ? "The final day begins early and concludes after Langar."
-    : "Monday through Friday follow the same afternoon and evening schedule.";
+  selectedDayHeading.textContent =
+    `${selectedDay.day}, July ${selectedDay.number}`;
+
+  selectedDayDescription.textContent =
+    selectedDay.day === "Saturday"
+      ? "The final day begins early and concludes after Langar."
+      : "Monday through Friday follow the same afternoon and evening schedule.";
 
   startTime.textContent = selectedDay.schedule[0].time;
-  endTime.textContent = selectedDay.schedule[selectedDay.schedule.length - 1].time;
+
+  endTime.textContent =
+    selectedDay.schedule[selectedDay.schedule.length - 1].time;
+
   activityCount.textContent = selectedDay.schedule.length;
-  timelineTitle.textContent = `${selectedDay.day}’s activities`;
-  scheduleRange.textContent = `${selectedDay.schedule[0].time}–${selectedDay.schedule[selectedDay.schedule.length - 1].time}`;
+
+  timelineTitle.textContent =
+    `${selectedDay.day}’s activities`;
+
+  scheduleRange.textContent =
+    `${selectedDay.schedule[0].time}–` +
+    `${selectedDay.schedule[selectedDay.schedule.length - 1].time}`;
+
   closingCard.hidden = selectedDay.day !== "Saturday";
 
   renderTimeline(selectedDay);
   updateWorkshopSection(selectedDay);
 
-  if (scrollIntoView && window.matchMedia("(max-width: 699px)").matches) {
-    document.querySelector("#schedule").scrollIntoView({ behavior: "smooth", block: "start" });
+  if (
+    scrollIntoView &&
+    window.matchMedia("(max-width: 699px)").matches
+  ) {
+    document
+      .querySelector("#schedule")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
   }
 }
 
 function renderTimeline(day) {
   timeline.replaceChildren();
+
   const now = new Date();
-  const isSelectedDateToday = formatLocalDate(now) === day.date;
+  const isSelectedDateToday =
+    formatLocalDate(now) === day.date;
 
   day.schedule.forEach((event, index) => {
     const item = document.createElement("li");
+
     item.className = "event";
     item.dataset.kind = event.kind;
 
     if (isSelectedDateToday) {
       const state = getEventState(day, index, now);
-      if (state === "current") item.classList.add("is-current");
-      if (state === "past") item.classList.add("is-past");
+
+      if (state === "current") {
+        item.classList.add("is-current");
+      }
+
+      if (state === "past") {
+        item.classList.add("is-past");
+      }
     }
 
+    const hasWorkshopSchedule =
+      Boolean(workshopScheduleByDate[day.date]);
+
+    const workshopLink =
+      hasWorkshopSchedule && event.kind === "workshop"
+        ? '<a class="event__link" href="#workshop-groups">' +
+          "View group assignment</a>"
+        : "";
+
     item.innerHTML = `
-      <time class="event__time" datetime="${day.date}T${event.value}">${event.time}</time>
-      <span class="event__marker" aria-hidden="true"></span>
+      <time
+        class="event__time"
+        datetime="${day.date}T${event.value}"
+      >
+        ${event.time}
+      </time>
+
+      <span
+        class="event__marker"
+        aria-hidden="true"
+      ></span>
+
       <article class="event__card">
         <div class="event__topline">
           <h3>${event.title}</h3>
           <span class="event__tag">${event.tag}</span>
         </div>
+
         <p class="event__detail">${event.detail}</p>
-        ${day.date === "2026-07-20" && event.kind === "workshop"
-          ? '<a class="event__link" href="#workshop-groups">View group assignment</a>'
-          : ""}
+        ${workshopLink}
       </article>
     `;
 
@@ -481,85 +539,198 @@ function renderTimeline(day) {
   updateLiveStatus(day, now);
 }
 
-
 function createGroupButtons() {
-  workshopGroups.forEach((group, index) => {
+  groups.forEach((group, index) => {
     const button = document.createElement("button");
+
     button.type = "button";
     button.className = "group-button";
     button.setAttribute("role", "tab");
     button.style.setProperty("--group-color", group.color);
+
     button.innerHTML = `
       <span class="group-button__name">Group ${group.id}</span>
       <span class="group-button__age">${group.age}</span>
     `;
+
     button.addEventListener("click", () => selectGroup(index));
+
     groupPicker.append(button);
   });
 }
 
 function selectGroup(index) {
   selectedGroupIndex = index;
-  const group = workshopGroups[index];
+
+  const group = groups[index];
+  const selectedDay = days[selectedIndex];
+
+  const assignments =
+    workshopScheduleByDate[selectedDay.date]?.[group.id] ?? [];
 
   [...groupPicker.children].forEach((button, buttonIndex) => {
-    const selected = buttonIndex === index;
-    button.setAttribute("aria-selected", String(selected));
-    button.tabIndex = selected ? 0 : -1;
+    const isSelected = buttonIndex === index;
+
+    button.setAttribute("aria-selected", String(isSelected));
+    button.tabIndex = isSelected ? 0 : -1;
   });
 
-  groupDetail.style.setProperty("--selected-group-color", group.color);
+  groupDetail.style.setProperty(
+    "--selected-group-color",
+    group.color
+  );
+
   groupName.textContent = group.name;
   groupAge.textContent = group.age;
+
   assignmentGrid.replaceChildren();
 
-  group.assignments.forEach((assignment) => {
+  if (assignments.length === 0) {
+    renderEmptyWorkshopSchedule(selectedDay, group);
+    return;
+  }
+
+  assignments.forEach((assignment, assignmentIndex) => {
     const card = document.createElement("section");
+
     card.className = "assignment-card";
+
     card.innerHTML = `
       <div class="assignment-card__top">
         <div>
-          <p class="assignment-card__slot">${assignment.slot}</p>
-          <p class="assignment-card__time">${assignment.time}</p>
+          <p class="assignment-card__slot">
+            ${assignment.slot}
+          </p>
+
+          <p class="assignment-card__time">
+            ${assignment.time}
+          </p>
         </div>
-        <span class="assignment-card__number" aria-hidden="true">${assignment.slot.endsWith("1") ? "1" : "2"}</span>
+
+        <span
+          class="assignment-card__number"
+          aria-hidden="true"
+        >
+          ${assignmentIndex + 1}
+        </span>
       </div>
+
       <h4>${assignment.activity}</h4>
+
       <dl class="assignment-meta">
         <div>
           <dt>Location</dt>
           <dd>${assignment.location}</dd>
         </div>
+
         <div>
           <dt>Leader</dt>
           <dd>${assignment.leader}</dd>
         </div>
       </dl>
     `;
+
     assignmentGrid.append(card);
   });
 }
 
-function updateWorkshopSection(day) {
-  const isMonday = day.date === "2026-07-20";
-  workshopSection.hidden = !isMonday;
+function renderEmptyWorkshopSchedule(day, group) {
+  const card = document.createElement("section");
 
-  if (isMonday) {
-    selectGroup(selectedGroupIndex);
+  card.className = "assignment-card";
+
+  card.innerHTML = `
+    <div class="assignment-card__top">
+      <div>
+        <p class="assignment-card__slot">
+          Workshop schedule
+        </p>
+
+        <p class="assignment-card__time">
+          ${day.day}, July ${day.number}
+        </p>
+      </div>
+
+      <span
+        class="assignment-card__number"
+        aria-hidden="true"
+      >
+        ${group.id}
+      </span>
+    </div>
+
+    <h4>Schedule not entered yet</h4>
+
+    <p class="event__detail">
+      Add this group’s two assignments in
+      <strong>workshopScheduleByDate</strong> inside app.js.
+    </p>
+  `;
+
+  assignmentGrid.append(card);
+}
+
+function updateWorkshopSection(day) {
+  const hasWorkshopSchedule =
+    Boolean(workshopScheduleByDate[day.date]);
+
+  workshopSection.hidden = !hasWorkshopSchedule;
+
+  if (!hasWorkshopSchedule) {
+    return;
   }
+
+  const sectionKicker =
+    workshopSection.querySelector(".section-kicker");
+
+  const dateBadge =
+    workshopSection.querySelector(".group-section__badge");
+
+  if (sectionKicker) {
+    sectionKicker.textContent =
+      `${day.day} · Group assignments`;
+  }
+
+  if (dateBadge) {
+    dateBadge.textContent =
+      `July ${day.number}`;
+  }
+
+  selectGroup(selectedGroupIndex);
 }
 
 groupPicker.addEventListener("keydown", (event) => {
-  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  const supportedKeys = [
+    "ArrowLeft",
+    "ArrowRight",
+    "Home",
+    "End"
+  ];
+
+  if (!supportedKeys.includes(event.key)) {
+    return;
+  }
+
   event.preventDefault();
 
-  if (event.key === "Home") selectedGroupIndex = 0;
-  if (event.key === "End") selectedGroupIndex = workshopGroups.length - 1;
-  if (event.key === "ArrowLeft") {
-    selectedGroupIndex = (selectedGroupIndex - 1 + workshopGroups.length) % workshopGroups.length;
+  if (event.key === "Home") {
+    selectedGroupIndex = 0;
   }
+
+  if (event.key === "End") {
+    selectedGroupIndex = groups.length - 1;
+  }
+
+  if (event.key === "ArrowLeft") {
+    selectedGroupIndex =
+      (selectedGroupIndex - 1 + groups.length) %
+      groups.length;
+  }
+
   if (event.key === "ArrowRight") {
-    selectedGroupIndex = (selectedGroupIndex + 1) % workshopGroups.length;
+    selectedGroupIndex =
+      (selectedGroupIndex + 1) %
+      groups.length;
   }
 
   selectGroup(selectedGroupIndex);
@@ -567,48 +738,102 @@ groupPicker.addEventListener("keydown", (event) => {
 });
 
 function getEventState(day, index, now) {
-  const start = dateTimeFor(day.date, day.schedule[index].value);
-  const next = day.schedule[index + 1]
-    ? dateTimeFor(day.date, day.schedule[index + 1].value)
-    : new Date(start.getTime() + 45 * 60 * 1000);
+  const start =
+    dateTimeFor(day.date, day.schedule[index].value);
 
-  if (now >= start && now < next) return "current";
-  if (now >= next) return "past";
+  const next =
+    day.schedule[index + 1]
+      ? dateTimeFor(
+          day.date,
+          day.schedule[index + 1].value
+        )
+      : new Date(
+          start.getTime() + 45 * 60 * 1000
+        );
+
+  if (now >= start && now < next) {
+    return "current";
+  }
+
+  if (now >= next) {
+    return "past";
+  }
+
   return "future";
 }
 
 function updateLiveStatus(day, now) {
-  const selectedDate = new Date(`${day.date}T00:00:00`);
-  const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const selectedLocalDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+  const selectedDate =
+    new Date(`${day.date}T00:00:00`);
+
+  const todayDate =
+    new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+
+  const selectedLocalDate =
+    new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate()
+    );
 
   let title = "Schedule preview";
   let detail = "Select any day to review its activities.";
 
-  if (selectedLocalDate.getTime() === todayDate.getTime()) {
-    const currentIndex = day.schedule.findIndex((_, index) => getEventState(day, index, now) === "current");
-    const nextIndex = day.schedule.findIndex((_, index) => getEventState(day, index, now) === "future");
+  if (
+    selectedLocalDate.getTime() ===
+    todayDate.getTime()
+  ) {
+    const currentIndex =
+      day.schedule.findIndex(
+        (_, index) =>
+          getEventState(day, index, now) === "current"
+      );
+
+    const nextIndex =
+      day.schedule.findIndex(
+        (_, index) =>
+          getEventState(day, index, now) === "future"
+      );
 
     if (currentIndex >= 0) {
       title = "Happening now";
-      detail = `${day.schedule[currentIndex].title} · ${day.schedule[currentIndex].time}`;
+      detail =
+        `${day.schedule[currentIndex].title} · ` +
+        `${day.schedule[currentIndex].time}`;
     } else if (nextIndex >= 0) {
       title = "Next activity";
-      detail = `${day.schedule[nextIndex].title} · ${day.schedule[nextIndex].time}`;
+      detail =
+        `${day.schedule[nextIndex].title} · ` +
+        `${day.schedule[nextIndex].time}`;
     } else {
       title = "Today’s schedule is complete";
-      detail = day.day === "Saturday" ? "Camp Samapati follows the final Langar." : "See you tomorrow.";
+
+      detail =
+        day.day === "Saturday"
+          ? "Camp Samapati follows the final Langar."
+          : "See you tomorrow.";
     }
   } else if (selectedLocalDate > todayDate) {
     title = "Upcoming schedule";
     detail = `${day.day}, July ${day.number}`;
-  } else if (selectedLocalDate < todayDate && formatLocalDate(now) > "2026-07-25") {
+  } else if (
+    selectedLocalDate < todayDate &&
+    formatLocalDate(now) > "2026-07-25"
+  ) {
     title = "Camp schedule archive";
     detail = "Camp Jeevan 2026 has concluded.";
   }
 
   liveStatus.innerHTML = `
-    <span class="live-status__dot" aria-hidden="true"></span>
+    <span
+      class="live-status__dot"
+      aria-hidden="true"
+    ></span>
+
     <div>
       <strong>${title}</strong>
       <span>${detail}</span>
@@ -630,54 +855,95 @@ function formatLocalDate(date) {
 
 function showToast(message) {
   document.querySelector(".toast")?.remove();
+
   const toast = document.createElement("div");
+
   toast.className = "toast";
   toast.setAttribute("role", "status");
   toast.textContent = message;
+
   document.body.append(toast);
-  window.setTimeout(() => toast.remove(), 2600);
+
+  window.setTimeout(() => {
+    toast.remove();
+  }, 2600);
 }
 
-document.querySelector("#printButton").addEventListener("click", () => window.print());
+document
+  .querySelector("#printButton")
+  .addEventListener("click", () => {
+    window.print();
+  });
 
-document.querySelector("#shareButton").addEventListener("click", async () => {
-  const shareData = {
-    title: "Camp Jeevan 2026 Schedule",
-    text: "View the Camp Jeevan 2026 daily schedule.",
-    url: window.location.href
-  };
+document
+  .querySelector("#shareButton")
+  .addEventListener("click", async () => {
+    const shareData = {
+      title: "Camp Jeevan 2026 Schedule",
+      text: "View the Camp Jeevan 2026 daily schedule.",
+      url: window.location.href
+    };
 
-  try {
-    if (navigator.share) {
-      await navigator.share(shareData);
-    } else if (navigator.clipboard) {
-      await navigator.clipboard.writeText(window.location.href);
-      showToast("Schedule link copied.");
-    } else {
-      showToast("Copy the page address from your browser.");
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(
+          window.location.href
+        );
+
+        showToast("Schedule link copied.");
+      } else {
+        showToast(
+          "Copy the page address from your browser."
+        );
+      }
+    } catch (error) {
+      if (error?.name !== "AbortError") {
+        showToast("Unable to share this page.");
+      }
     }
-  } catch (error) {
-    if (error?.name !== "AbortError") {
-      showToast("Unable to share this page.");
-    }
-  }
-});
+  });
 
 dayPicker.addEventListener("keydown", (event) => {
-  if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+  const supportedKeys = [
+    "ArrowLeft",
+    "ArrowRight",
+    "Home",
+    "End"
+  ];
+
+  if (!supportedKeys.includes(event.key)) {
+    return;
+  }
+
   event.preventDefault();
 
-  if (event.key === "Home") selectedIndex = 0;
-  if (event.key === "End") selectedIndex = days.length - 1;
-  if (event.key === "ArrowLeft") selectedIndex = (selectedIndex - 1 + days.length) % days.length;
-  if (event.key === "ArrowRight") selectedIndex = (selectedIndex + 1) % days.length;
+  if (event.key === "Home") {
+    selectedIndex = 0;
+  }
+
+  if (event.key === "End") {
+    selectedIndex = days.length - 1;
+  }
+
+  if (event.key === "ArrowLeft") {
+    selectedIndex =
+      (selectedIndex - 1 + days.length) %
+      days.length;
+  }
+
+  if (event.key === "ArrowRight") {
+    selectedIndex =
+      (selectedIndex + 1) %
+      days.length;
+  }
 
   selectDay(selectedIndex);
   dayPicker.children[selectedIndex].focus();
 });
 
 createGroupButtons();
-selectGroup(selectedGroupIndex);
 createDayButtons();
 selectDay(selectedIndex);
 
