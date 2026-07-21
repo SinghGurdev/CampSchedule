@@ -1,18 +1,212 @@
+/*
+  Camp Jeevan 2026 schedule
+
+  EDITING WORKSHOPS
+  -----------------
+  Monday through Friday workshop assignments are stored in
+  workshopScheduleByDate.
+
+  Each date contains Groups A, B, C, and D. Each group should have two
+  assignment objects: Workshop 1 and Workshop 2.
+
+  Saturday does not display the workshop section.
+*/
+
 const weekdaySchedule = [
-  { time: "12:30 PM", value: "12:30", title: "Begin Camp", detail: "Daily camp program begins.", kind: "logistics", tag: "Camp" },
-  { time: "12:45 PM", value: "12:45", title: "Lecture 1 & Q/A", detail: "Lecture followed by questions and answers.", kind: "session", tag: "Lecture" },
-  { time: "2:00 PM", value: "14:00", title: "Break", detail: "Short break between sessions.", kind: "break", tag: "Break" },
-  { time: "2:10 PM", value: "14:10", title: "Lecture 2 & Q/A", detail: "Second lecture followed by questions and answers.", kind: "session", tag: "Lecture" },
-  { time: "3:10 PM", value: "15:10", title: "Break / Snack", detail: "Snack and refreshment break.", kind: "break", tag: "Break" },
-  { time: "3:45 PM", value: "15:45", title: "Workshop 1", detail: "Participants divide into four groups.", kind: "workshop", tag: "Workshop" },
-  { time: "5:00 PM", value: "17:00", title: "Workshop 2", detail: "Participants continue in four groups.", kind: "workshop", tag: "Workshop" },
-  { time: "6:10 PM", value: "18:10", title: "Break / Freshen Up", detail: "Time to reset before the evening program.", kind: "break", tag: "Break" },
-  { time: "6:30 PM", value: "18:30", title: "Simran / Rehras Sahib", detail: "", kind: "spiritual", tag: "Program" },
-  { time: "7:15 PM", value: "19:15", title: "Langar", detail: "Evening meal.", kind: "meal", tag: "Meal" },
-  { time: "8:00 PM", value: "20:00", title: "Open Q/A Session", detail: "Open questions and answers for all participants.", kind: "session", tag: "Q/A" },
-  { time: "9:00 PM", value: "21:00", title: "Go Home", detail: "Daily camp program concludes.", kind: "logistics", tag: "Dismissal" }
+  {
+    time: "12:30 PM",
+    value: "12:30",
+    title: "Begin Camp",
+    detail: "Daily camp program begins.",
+    kind: "logistics",
+    tag: "Camp"
+  },
+  {
+    time: "12:45 PM",
+    value: "12:45",
+    title: "Lecture 1 & Q/A",
+    detail: "Lecture followed by questions and answers.",
+    kind: "session",
+    tag: "Lecture"
+  },
+  {
+    time: "2:00 PM",
+    value: "14:00",
+    title: "Break",
+    detail: "Short break between sessions.",
+    kind: "break",
+    tag: "Break"
+  },
+  {
+    time: "2:10 PM",
+    value: "14:10",
+    title: "Lecture 2 & Q/A",
+    detail: "Second lecture followed by questions and answers.",
+    kind: "session",
+    tag: "Lecture"
+  },
+  {
+    time: "3:10 PM",
+    value: "15:10",
+    title: "Break / Snack",
+    detail: "Snack and refreshment break.",
+    kind: "break",
+    tag: "Break"
+  },
+  {
+    time: "3:45 PM",
+    value: "15:45",
+    title: "Workshop 1",
+    detail: "Participants divide into four groups.",
+    kind: "workshop",
+    tag: "Workshop"
+  },
+  {
+    time: "5:00 PM",
+    value: "17:00",
+    title: "Workshop 2",
+    detail: "Participants continue in four groups.",
+    kind: "workshop",
+    tag: "Workshop"
+  },
+  {
+    time: "6:10 PM",
+    value: "18:10",
+    title: "Break / Freshen Up",
+    detail: "Time to reset before the evening program.",
+    kind: "break",
+    tag: "Break"
+  },
+  {
+    time: "6:30 PM",
+    value: "18:30",
+    title: "Simran / Rehras Sahib",
+    detail: "Evening spiritual program.",
+    kind: "spiritual",
+    tag: "Program"
+  },
+  {
+    time: "7:15 PM",
+    value: "19:15",
+    title: "Langar",
+    detail: "Evening meal.",
+    kind: "meal",
+    tag: "Meal"
+  },
+  {
+    time: "8:00 PM",
+    value: "20:00",
+    title: "Open Q/A Session",
+    detail: "Open questions and answers for all participants.",
+    kind: "session",
+    tag: "Q/A"
+  },
+  {
+    time: "9:00 PM",
+    value: "21:00",
+    title: "Go Home",
+    detail: "Daily camp program concludes.",
+    kind: "logistics",
+    tag: "Dismissal"
+  }
 ];
 
+const saturdaySchedule = [
+  {
+    time: "5:00 AM",
+    value: "05:00",
+    title: "Simran Meditation Session",
+    detail: "Early morning meditation session.",
+    kind: "spiritual",
+    tag: "Simran"
+  },
+  {
+    time: "6:00 AM",
+    value: "06:00",
+    title: "Nitnem",
+    detail: "Morning Nitnem program.",
+    kind: "spiritual",
+    tag: "Program"
+  },
+  {
+    time: "7:00 AM",
+    value: "07:00",
+    title: "Nishaan Sahib Salami",
+    detail: "Nishaan Sahib Salami.",
+    kind: "spiritual",
+    tag: "Program"
+  },
+  {
+    time: "7:30 AM",
+    value: "07:30",
+    title: "Breakfast",
+    detail: "Breakfast for camp participants.",
+    kind: "meal",
+    tag: "Meal"
+  },
+  {
+    time: "9:00 AM",
+    value: "09:00",
+    title: "Sehej Paath Bhog",
+    detail: "Sehej Paath Bhog program.",
+    kind: "spiritual",
+    tag: "Program"
+  },
+  {
+    time: "10:00 AM",
+    value: "10:00",
+    title: "Break",
+    detail: "Short morning break.",
+    kind: "break",
+    tag: "Break"
+  },
+  {
+    time: "10:15 AM",
+    value: "10:15",
+    title: "Kirtan by Singhs and Kaurs",
+    detail: "Kirtan presentation.",
+    kind: "spiritual",
+    tag: "Kirtan"
+  },
+  {
+    time: "11:00 AM",
+    value: "11:00",
+    title: "Concluding Statements",
+    detail: "Closing remarks from camp organizers.",
+    kind: "session",
+    tag: "Closing"
+  },
+  {
+    time: "11:45 AM",
+    value: "11:45",
+    title: "Final Announcements",
+    detail: "Final camp announcements and instructions.",
+    kind: "logistics",
+    tag: "Notice"
+  },
+  {
+    time: "12:00 PM",
+    value: "12:00",
+    title: "Ardaas & Hukamnama",
+    detail: "Final Ardaas and Hukamnama.",
+    kind: "spiritual",
+    tag: "Program"
+  },
+  {
+    time: "12:15 PM",
+    value: "12:15",
+    title: "Langar",
+    detail: "Final Langar, followed by Camp Samapati.",
+    kind: "meal",
+    tag: "Meal"
+  }
+];
+
+/*
+  Group names, ages, and display colors.
+
+  Change an age here if a group's age range changes.
+*/
 const groups = [
   {
     id: "A",
@@ -337,27 +531,49 @@ const workshopScheduleByDate = {
   }
 };
 
-const saturdaySchedule = [
-  { time: "5:00 AM", value: "05:00", title: "Simran Meditation Session", detail: "Early morning meditation session.", kind: "spiritual", tag: "Simran" },
-  { time: "6:00 AM", value: "06:00", title: "Nitnem", detail: "Morning Nitnem program.", kind: "spiritual", tag: "Program" },
-  { time: "7:00 AM", value: "07:00", title: "Nishaan Sahib Salami", detail: "Nishaan Sahib Salami.", kind: "spiritual", tag: "Program" },
-  { time: "7:30 AM", value: "07:30", title: "Breakfast", detail: "Breakfast for camp participants.", kind: "meal", tag: "Meal" },
-  { time: "9:00 AM", value: "09:00", title: "Sehej Paath Bhog", detail: "Sehej Paath Bhog program.", kind: "spiritual", tag: "Program" },
-  { time: "10:00 AM", value: "10:00", title: "Break", detail: "Short morning break.", kind: "break", tag: "Break" },
-  { time: "10:15 AM", value: "10:15", title: "Kirtan by Singhs and Kaurs", detail: "Kirtan presentation.", kind: "spiritual", tag: "Kirtan" },
-  { time: "11:00 AM", value: "11:00", title: "Concluding Statements", detail: "Closing remarks from camp organizers.", kind: "session", tag: "Closing" },
-  { time: "11:45 AM", value: "11:45", title: "Final Announcements", detail: "Final camp announcements and instructions.", kind: "logistics", tag: "Notice" },
-  { time: "12:00 PM", value: "12:00", title: "Ardaas & Hukamnama", detail: "Final Ardaas and Hukamnama.", kind: "spiritual", tag: "Program" },
-  { time: "12:15 PM", value: "12:15", title: "Langar", detail: "Final Langar, followed by Camp Samapati.", kind: "meal", tag: "Meal" }
-];
-
 const days = [
-  { date: "2026-07-20", short: "Mon", day: "Monday", number: "20", schedule: weekdaySchedule },
-  { date: "2026-07-21", short: "Tue", day: "Tuesday", number: "21", schedule: weekdaySchedule },
-  { date: "2026-07-22", short: "Wed", day: "Wednesday", number: "22", schedule: weekdaySchedule },
-  { date: "2026-07-23", short: "Thu", day: "Thursday", number: "23", schedule: weekdaySchedule },
-  { date: "2026-07-24", short: "Fri", day: "Friday", number: "24", schedule: weekdaySchedule },
-  { date: "2026-07-25", short: "Sat", day: "Saturday", number: "25", schedule: saturdaySchedule }
+  {
+    date: "2026-07-20",
+    short: "Mon",
+    day: "Monday",
+    number: "20",
+    schedule: weekdaySchedule
+  },
+  {
+    date: "2026-07-21",
+    short: "Tue",
+    day: "Tuesday",
+    number: "21",
+    schedule: weekdaySchedule
+  },
+  {
+    date: "2026-07-22",
+    short: "Wed",
+    day: "Wednesday",
+    number: "22",
+    schedule: weekdaySchedule
+  },
+  {
+    date: "2026-07-23",
+    short: "Thu",
+    day: "Thursday",
+    number: "23",
+    schedule: weekdaySchedule
+  },
+  {
+    date: "2026-07-24",
+    short: "Fri",
+    day: "Friday",
+    number: "24",
+    schedule: weekdaySchedule
+  },
+  {
+    date: "2026-07-25",
+    short: "Sat",
+    day: "Saturday",
+    number: "25",
+    schedule: saturdaySchedule
+  }
 ];
 
 const dayPicker = document.querySelector("#dayPicker");
