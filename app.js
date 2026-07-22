@@ -401,9 +401,9 @@ const workshopScheduleByDate = {
       {
         slot: "Workshop 2",
         time: "5:00 PM",
-        activity: "Sangeet",
-        location: "Darbar Sahib",
-        leader: "Bibi Rasleen Kaur"
+        activity: "ਸਫਰ e ਸਿਖਰ",
+        location: "Punjabi School",
+        leader: "Bibi Prabhveer Kaur/Bibi Mangal Kaur"
       }
     ],
 
@@ -411,9 +411,9 @@ const workshopScheduleByDate = {
       {
         slot: "Workshop 1",
         time: "3:45 PM",
-        activity: "Sangeet",
-        location: "Darbar Sahib",
-        leader: "Bibi Rasleen Kaur"
+        activity: "ਸਫਰ e ਸਿਖਰ",
+        location: "Punjabi School",
+        leader: "Bibi Prabhveer Kaur/Bibi Mangal Kaur"
       },
       {
         slot: "Workshop 2",
@@ -472,9 +472,9 @@ const workshopScheduleByDate = {
       {
         slot: "Workshop 2",
         time: "5:00 PM",
-        activity: "Sangeet",
-        location: "Darbar Sahib",
-        leader: "Bibi Rasleen Kaur"
+        activity: "ਸਫਰ e ਸਿਖਰ",
+        location: "Punjabi School",
+        leader: "Bibi Prabhveer Kaur/Bibi Mangal Kaur"
       }
     ],
 
@@ -482,9 +482,9 @@ const workshopScheduleByDate = {
       {
         slot: "Workshop 1",
         time: "3:45 PM",
-        activity: "Sangeet",
-        location: "Darbar Sahib",
-        leader: "Bibi Rasleen Kaur"
+        activity: "ਸਫਰ e ਸਿਖਰ",
+        location: "Punjabi School",
+        leader: "Bibi Prabhveer Kaur/Bibi Mangal Kaur"
       },
       {
         slot: "Workshop 2",
